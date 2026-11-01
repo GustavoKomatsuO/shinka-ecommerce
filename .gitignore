@@ -1,0 +1,20 @@
+# Configurações e segredos locais
+.env
+.env.*
+!.env.example
+config/database.local.php
+config/correios.php
+config/correios.local.php
+config/cacert.pem
+
+# Arquivos gerados e ambiente local
+*.log
+*.zip
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+/vendor/
+/node_modules/
+/public/imagens/*
+!/public/imagens/.gitkeep

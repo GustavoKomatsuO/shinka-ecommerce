@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Categoria — SHINKA</title>
+  <link rel="stylesheet" href="cliente.css" />
+  <link rel="stylesheet" href="categoria-geral.css" />
+</head>
+<body data-category="default">
+  <header class="category-header">
+    <a class="category-logo" href="index.html">SHINKA</a>
+    <div class="category-actions">
+      <a href="index.html">Início</a>
+      <a href="carrinho.html">Carrinho <span class="cart-badge" data-cart-count>0</span></a>
+      <a href="conta.html">Minha conta</a>
+    </div>
+  </header>
+
+  <main class="category-shell">
+    <div class="category-eyebrow" id="categoryEyebrow">SHINKA / CATEGORIA</div>
+    <nav class="category-breadcrumb"><a href="index.html">Início</a><span>›</span><strong id="categoryBreadcrumb">Categoria</strong></nav>
+    <section class="category-hero">
+      <div><span class="hero-label" id="heroHighlight">CATÁLOGO SHINKA</span><h1 id="categoryTitle">Categoria</h1><p id="categoryHero">Confira os produtos disponíveis.</p></div>
+    </section>
+    <div class="category-toolbar">
+      <input id="search" type="search" placeholder="Pesquisar produtos nesta categoria…" aria-label="Pesquisar produtos" />
+      <select id="sort" aria-label="Ordenar produtos"><option value="relevancia">Relevância</option><option value="menor">Menor preço</option><option value="maior">Maior preço</option><option value="nome">Nome</option></select>
+    </div>
+    <div id="categoryNotice" class="category-notice" hidden></div>
+    <section id="grid" class="category-grid" aria-live="polite"></section>
+  </main>
+
+  <script src="cliente.js"></script>
+  <script src="categoria.js"></script>
+</body>
+</html>

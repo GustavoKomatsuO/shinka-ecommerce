@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHINKA Admin — Acesso corporativo</title>
+  <meta name="description" content="Portal restrito para operadores e administradores SHINKA.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Notable&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="adminLoginStyle.css">
+</head>
+<body>
+  <main class="login-shell">
+    <section class="brand-side" aria-labelledby="brandTitle">
+      <a class="brand" href="../telaPrincipla/index.html">SHINKA</a>
+      <span class="eyebrow">ADMIN CONSOLE</span>
+      <h1 id="brandTitle">Operação inteligente.<br>Controle em um só lugar.</h1>
+      <p>Catálogo, pedidos, logística, clientes e ativos digitais com permissões por função.</p>
+      <div class="security-card">
+        <span class="security-icon" aria-hidden="true">✓</span>
+        <div><strong>Ambiente restrito</strong><small>Use somente sua conta administrativa SHINKA.</small></div>
+      </div>
+    </section>
+
+    <section class="form-side" aria-labelledby="loginTitle">
+      <div class="login-card">
+        <p class="eyebrow">ACESSO CORPORATIVO</p>
+        <h2 id="loginTitle">Entrar no painel</h2>
+        <p class="intro">Autentique-se para acessar os módulos liberados para sua função.</p>
+
+        <form id="adminLoginForm" novalidate>
+          <label class="field">
+            <span>E-mail corporativo</span>
+            <input id="adminEmail" name="email" type="email" autocomplete="username" placeholder="voce@shinka.com" required>
+          </label>
+
+          <label class="field">
+            <span>Senha</span>
+            <input id="adminPassword" name="senha" type="password" autocomplete="current-password" required>
+          </label>
+
+          <p class="form-message" id="loginMessage" role="alert" aria-live="polite"></p>
+          <button class="primary-button" id="loginButton" type="submit">Entrar com segurança</button>
+        </form>
+
+        <a class="back-link" href="../telaPrincipla/index.html">← Voltar para a loja SHINKA</a>
+      </div>
+    </section>
+  </main>
+  <script src="adminLoginScript.js" defer></script>
+</body>
+</html>

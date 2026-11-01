@@ -1,0 +1,25 @@
+name: Validação de sintaxe
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  sintaxe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar PHP
+        run: find . -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Verificar JavaScript
+        run: find public -type f -name '*.js' -print0 | xargs -0 -n1 node --check

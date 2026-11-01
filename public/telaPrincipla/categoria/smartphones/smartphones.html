@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-category="smartphones">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smartphones SHINKA — Catálogo</title>
+  <meta name="description" content="Conheça todos os smartphones SHINKA. Escolha modelo, cor e confira as imagens do produto.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Notable&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="smartphonesStyle.css">
+  <link rel="stylesheet" href="../../cliente.css">
+</head>
+
+<body data-category="smartphones">
+  <header class="site-header">
+    <div class="header-container">
+      <a class="logo" href="../../index.html" aria-label="SHINKA — página inicial">SHINKA</a>
+
+      <nav class="nav" aria-label="Categorias de produtos">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="../../index.html">Home</a></li>
+          <li><a class="nav-link" href="../smartphones/smartphones.html">Smartphones</a></li>
+          <li><a class="nav-link" href="../notebooks/notebooks.html">Notebooks</a></li>
+          <li><a class="nav-link" href="../tablets/tablets.html">Tablets</a></li>
+          <li><a class="nav-link" href="../tv/tv.html">TVs</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions" aria-label="Ações da loja">
+        <a class="action-btn" href="../../carrinho.html" title="Carrinho" aria-label="Carrinho"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l1.6 10.1a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L20 8H7"></path><circle cx="10" cy="19" r="1" fill="currentColor"></circle><circle cx="17" cy="19" r="1" fill="currentColor"></circle></svg><span class="cart-badge" data-cart-count>0</span></a>
+
+        <a class="action-btn" href="../../conta.html" title="Minha conta" aria-label="Minha conta">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="catalog-intro" aria-labelledby="catalogTitle">
+      <div class="breadcrumb">
+        <a href="../../index.html">SHINKA</a>
+        <span>/</span>
+        <span>Smartphones</span>
+      </div>
+
+      <span class="eyebrow">SHINKA / Smartphones</span>
+
+      <h1 id="catalogTitle">Todos os Smartphones SHINKA</h1>
+
+      <p>Encontre a linha Mirai ideal para seu perfil.</p>
+    </section>
+
+    <section class="catalog-controls" aria-label="Pesquisa, filtros e ordenação">
+      <nav class="family-tabs" id="familyTabs" aria-label="Famílias de smartphones">
+        <button class="family-tab active" type="button" data-family="">Todos</button>
+      </nav>
+
+      <div class="filters-row">
+        <div class="result-count">
+          <span id="productCount">0 produtos</span>
+        </div>
+
+        <div class="filters-actions">
+          <label class="sr-only" for="productSearch">Buscar produto</label>
+          <input
+            class="search-input"
+            id="productSearch"
+            type="search"
+            placeholder="Buscar modelo, linha ou recurso"
+          >
+
+          <label class="sr-only" for="productSort">Ordenar produtos</label>
+          <select class="sort-select" id="productSort">
+            <option value="recomendado">Recomendados</option>
+            <option value="preco_asc">Preço: menor para maior</option>
+            <option value="preco_desc">Preço: maior para menor</option>
+            <option value="nome_asc">Nome: A–Z</option>
+          </select>
+
+          <label class="promo-check">
+            <input id="promoOnly" type="checkbox">
+            Só ofertas
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section class="catalog-results" aria-labelledby="resultsTitle">
+      <h2 class="sr-only" id="resultsTitle">Produtos disponíveis</h2>
+      <div class="products-grid" id="productsGrid" aria-live="polite"></div>
+
+      <div class="catalog-loading" id="catalogLoading">
+        Carregando produtos...
+      </div>
+
+      <div class="catalog-error" id="catalogError" hidden></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>© 2026 SHINKA. Todos os direitos reservados.</p>
+      <p>Preços e disponibilidade são administrados no SHINKA Admin Console.</p>
+    </div>
+  </footer>
+
+  <script src="../../cliente.js"></script>
+  <script src="smartphonesScript.js" defer></script>
+</body>
+</html>

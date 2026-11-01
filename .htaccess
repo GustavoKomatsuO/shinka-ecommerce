@@ -1,0 +1,3 @@
+# SHINKA — entrada simples do projeto em Apache/XAMPP.
+RewriteEngine On
+RewriteRule ^$ public/index.php [L]

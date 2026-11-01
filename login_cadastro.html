@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrar ou criar conta — SHINKA</title>
+  <link rel="shortcut icon" href="imagens/favicon-rounded (1).ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Notable&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="loginCadastroStyle.css">
+</head>
+<body>
+  <!-- Tela principal de autenticação. O JS alterna login/cadastro sem recarregar a página. -->
+  <main class="auth-screen">
+    <a class="back-link" href="telaPrincipla/index.html">← Voltar para a loja</a>
+
+    <section class="auth-container" id="authContainer" aria-label="Autenticação SHINKA">
+      <!-- Formulário de cadastro do cliente. -->
+      <article class="form-container sign-up-container" id="painel-cadastro">
+        <form id="formCadastro" novalidate>
+          <a class="auth-logo" href="telaPrincipla/index.html" aria-label="SHINKA - início">SHINKA</a>
+          <h1 class="form-title">Criar conta</h1>
+          <p class="auth-subtitle">Leva menos de um minuto.</p>
+
+          <div class="field">
+            <label for="cad-nome">Nome completo</label>
+            <input id="cad-nome" name="nome" type="text" autocomplete="name" required>
+          </div>
+
+          <div class="field">
+            <label for="cad-cpf">CPF</label>
+            <input id="cad-cpf" name="codigo" type="text" inputmode="numeric" placeholder="000.000.000-00" maxlength="14" autocomplete="off" required>
+          </div>
+
+          <div class="field">
+            <label for="cad-email">E-mail</label>
+            <input id="cad-email" name="email" type="email" autocomplete="email" required>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="cad-senha">Senha</label>
+              <input id="cad-senha" name="senha" type="password" minlength="6" autocomplete="new-password" required>
+            </div>
+            <div class="field">
+              <label for="cad-confirmar">Confirmar senha</label>
+              <input id="cad-confirmar" name="confirmarSenha" type="password" minlength="6" autocomplete="new-password" required>
+            </div>
+          </div>
+
+          <p class="form-message" id="msgCadastro" role="alert" aria-live="polite"></p>
+
+          <div class="cadastro-button-area">
+            <button class="btn-submit cadastro-submit" id="btnCadastro" type="submit">Criar minha conta</button>
+          </div>
+
+          <p class="auth-security-note">Sua senha é protegida com criptografia — nem a <span class="mini-logo-security">SHINKA</span> consegue vê-la.</p>
+          <p class="auth-switch mobile-only">Já tem conta? <a href="#" data-switch-to="login">Entrar</a></p>
+        </form>
+      </article>
+
+      <!-- Formulário de login do cliente/funcionário. Mantém o desenho original. -->
+      <article class="form-container sign-in-container" id="painel-login">
+        <form id="formLogin" novalidate>
+          <a class="auth-logo" href="telaPrincipla/index.html" aria-label="SHINKA - início">SHINKA</a>
+          <h1 class="form-title">Entrar na conta</h1>
+          <p class="auth-subtitle">Bom te ver de novo</p>
+
+          <div class="field">
+            <label for="log-email">E-mail</label>
+            <input id="log-email" name="email" type="email" autocomplete="email" required>
+          </div>
+
+          <div class="field">
+            <label for="log-senha">Senha</label>
+            <div class="login-password-wrapper">
+              <input id="log-senha" name="senha" type="password" autocomplete="current-password" required>
+              <button class="toggle-password" id="togglePassword" type="button" aria-label="Mostrar senha">Mostrar</button>
+            </div>
+          </div>
+
+          <p class="form-message" id="msgLogin" role="alert" aria-live="polite"></p>
+          <button class="btn-submit" id="btnLogin" type="submit">Entrar na conta</button>
+          <p class="auth-switch mobile-only">Ainda não tem conta? <a href="#" data-switch-to="cadastro">Criar conta</a></p>
+        </form>
+      </article>
+
+      <!-- Painel visual lateral: possui o vídeo/animação e não altera o formulário de login. -->
+      <aside class="overlay-container" aria-label="Mensagem de boas-vindas">
+        <div class="overlay">
+          <section class="overlay-panel overlay-login" aria-label="Criar conta">
+            <canvas id="welcomeCanvas" class="welcome-canvas" aria-hidden="true"></canvas>
+            <div class="welcome-glow" aria-hidden="true"></div>
+            <div class="overlay-copy">
+              <h2 class="overlay-title">Ainda não tem conta?</h2>
+              <p class="overlay-description">Crie seu cadastro e comece sua jornada com a <span class="mini-logo-overlay-description" id="animatedShinka">SHINKA</span>.</p>
+              <button class="btn-ghost" id="tab-cadastro" type="button">Criar conta <span aria-hidden="true">→</span></button>
+            </div>
+          </section>
+
+          <section class="overlay-panel overlay-cadastro" id="overlayCadastro" aria-label="Voltar para login">
+            <button class="cadastro-back-login" id="tab-login-top" type="button" aria-label="Voltar para o login"><span aria-hidden="true">←</span> Voltar ao login</button>
+            <header class="cadastro-welcome">
+              <div class="welcome-animation" aria-hidden="true">
+                <span class="wave wave-1"></span><span class="wave wave-2"></span><span class="wave wave-3"></span><span class="wave wave-4"></span>
+                <span class="particle particle-1"></span><span class="particle particle-2"></span><span class="particle particle-3"></span><span class="particle particle-4"></span>
+                <span class="particle particle-5"></span><span class="particle particle-6"></span><span class="particle particle-7"></span><span class="particle particle-8"></span>
+              </div>
+              <div class="welcome-copy" id="welcomeCopy" aria-hidden="true">
+                <h2 class="welcome-title">Bem-vindo de volta!</h2>
+                <p class="welcome-description">Para continuar, entre novamente com sua conta <span class="mini-logo-welcome-description">SHINKA</span>.</p>
+                <button class="welcome-button" id="tab-login" type="button" aria-label="Voltar para o login">Entrar</button>
+              </div>
+            </header>
+          </section>
+        </div>
+      </aside>
+    </section>
+  </main>
+  <script src="loginCadastroScript.js" defer></script>
+</body>
+</html>

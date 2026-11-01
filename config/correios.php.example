@@ -1,0 +1,12 @@
+<?php
+/**
+ * Copie para config/correios.php apenas em ambiente local.
+ * Em produção, prefira variáveis de ambiente.
+ */
+return [
+    'token' => '',
+    'origem_cep' => '30140071',
+    'pac_codigo' => '03298',
+    'sedex_codigo' => '03220',
+    'ambiente' => 'producao',
+];

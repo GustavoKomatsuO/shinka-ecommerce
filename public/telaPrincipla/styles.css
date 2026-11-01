@@ -1,0 +1,1274 @@
+/* ========================================================================== 
+   SHINKA — HOME / LOJA PRINCIPAL
+   --------------------------------------------------------------------------
+   Estrutura do arquivo:
+   1. Reset e tipografia
+   2. Intro animada
+   3. Header e mega menu
+   4. Carrossel e vídeo do hero
+   5. Portfólio de produtos
+   6. Rodapé
+   7. Responsividade
+   ========================================================================== */
+
+/* ========================================================================== 
+   1. RESET E ESTILOS GERAIS
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #fff;
+  color: #0f172a;
+  overflow-x: hidden;
+}
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* ========================================================================== 
+   2. PRELOADER — GOTA / RIPPLE
+   ========================================================================== */
+.intro-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #1f56d5;
+  perspective: 1000px;
+  transition: opacity .3s cubic-bezier(.4, 0, .2, 1), visibility .3s ease;
+}
+
+.intro-brand {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 16px;
+  transform-style: preserve-3d;
+}
+
+.intro-letter {
+  font-family: 'Notable', sans-serif;
+  font-size: 64px;
+  color: #fff;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: scale(.8) translateZ(-50px);
+  animation: revealLetter .5s cubic-bezier(.16, 1, .3, 1) forwards;
+  animation-delay: calc(.08s * var(--i));
+  text-shadow: 0 4px 15px rgba(0, 0, 0, .15);
+  transition: color .6s ease, text-shadow .6s ease;
+  will-change: transform, opacity, color;
+}
+
+@keyframes revealLetter {
+  to {
+    opacity: 1;
+    transform: scale(1) translateZ(0);
+  }
+}
+
+.water-drop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  box-shadow: 0 0 50px rgba(255, 255, 255, .8), inset 0 0 20px rgba(31, 86, 213, .15);
+}
+
+.intro-loader.ripple-active .water-drop {
+  animation: expandRipple 2s cubic-bezier(.22, 1, .36, 1) forwards;
+}
+
+@keyframes expandRipple {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  60% {
+    border-radius: 48% 52% 50% 50%;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(170);
+    opacity: 1;
+  }
+}
+
+.intro-loader.ripple-active .intro-letter {
+  color: #000;
+  text-shadow: none;
+  animation: revealLetter .5s cubic-bezier(.16, 1, .3, 1) forwards, pushForwardAndReturn 2s cubic-bezier(.22, 1, .36, 1) forwards;
+  animation-delay: calc(.08s * var(--i)), 0s;
+}
+
+@keyframes pushForwardAndReturn {
+  0% {
+    transform: scale(1) translateZ(0);
+  }
+  40% {
+    transform: scale(1.22) translateZ(80px);
+  }
+  100% {
+    transform: scale(1) translateZ(0);
+  }
+}
+
+.intro-loader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* ========================================================================== 
+   3. HEADER / NAVEGAÇÃO
+   ========================================================================== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+  transition: background-color .3s ease;
+}
+
+.header-container {
+  max-width: 1280px;
+  height: 64px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: 'Notable', sans-serif;
+  font-size: 22px;
+  color: #0f172a;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color .3s ease;
+}
+
+.nav {
+  height: 100%;
+}
+
+.nav-list {
+  display: flex;
+  height: 100%;
+  list-style: none;
+}
+
+.nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 20px;
+  color: #1e293b;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: color .3s ease;
+}
+
+.header:hover {
+  background-color: #1f56d5;
+}
+
+.header:hover .logo,
+.header:hover .nav-link,
+.header:hover .action-btn {
+  color: #fff;
+}
+
+.header:hover .action-btn:hover {
+  background-color: rgba(255, 255, 255, .2);
+}
+
+/* Mega menus seguem a largura da janela, mas o conteúdo mantém 1280 px. */
+.mega-menu {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  z-index: 999;
+  width: 100vw;
+  background-color: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, .1);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .25s ease, visibility .25s ease;
+}
+
+.nav-item:hover .mega-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.mega-menu-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: flex;
+  gap: 48px;
+}
+
+.menu-column h4 {
+  margin-bottom: 16px;
+  color: #64748b;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.menu-column ul {
+  list-style: none;
+}
+
+.menu-column ul li {
+  margin-bottom: 12px;
+}
+
+.menu-column ul li a,
+.feature-card > a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #0f172a;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: color .2s ease;
+}
+
+.menu-column ul li a:hover,
+.feature-card > a:hover {
+  color: #1f56d5;
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  background-color: #eff6ff;
+  color: #1f56d5;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.feature-card {
+  min-width: 260px;
+  padding: 20px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.card-tag {
+  display: block;
+  margin-bottom: 8px;
+  color: #1f56d5;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.feature-card h5 {
+  margin-bottom: 6px;
+  color: #0f172a;
+  font-size: 18px;
+}
+
+.feature-card p {
+  margin-bottom: 8px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: #0f172a;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+
+/* ========================================================================== 
+   4. CARROSSEL / HERO / VÍDEO
+   ========================================================================== */
+.carousel-section {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 64px);
+  min-height: 540px;
+  max-height: 720px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .8s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.slide-image-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.slide-bg-graphic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Banners cadastrados no Admin > Campanhas > Banners. */
+.dynamic-banner-visual {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0b1020 0%, #18233d 100%);
+}
+
+.dynamic-banner-picture,
+.dynamic-banner-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.dynamic-banner-media {
+  object-fit: cover;
+}
+
+.dynamic-banner-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,.64) 0%, rgba(0,0,0,.28) 48%, rgba(0,0,0,.06) 100%);
+  pointer-events: none;
+}
+
+.slide-caption {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 48px;
+  color: #fff;
+}
+
+.hero-banner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hero-poster,
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-poster {
+  z-index: 1;
+  transition: opacity .6s ease;
+}
+
+.hero-video {
+  z-index: 2;
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+
+.hero-banner.video-playing .hero-poster {
+  opacity: 0;
+}
+
+.hero-banner.video-playing .hero-video {
+  opacity: 1;
+}
+
+/* Sobreposição limpa sobre o vídeo: sem máscaras sólidas que criavam linhas/bordas visíveis. */
+.text-cover-box {
+  position: absolute;
+  left: 8%;
+  top: 50%;
+  z-index: 18;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  transform: translateY(-50%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  color: #ffffff;
+  text-shadow: 0 3px 18px rgba(0, 0, 0, .32);
+  transition: opacity .35s ease, visibility .35s ease;
+}
+
+.text-cover-box.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.video-brand-label {
+  color: #60a5fa;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.text-cover-box strong {
+  font-family: 'Roboto', sans-serif;
+  font-size: clamp(36px, 5vw, 68px);
+  font-weight: 900;
+  letter-spacing: -.045em;
+  line-height: 1;
+}
+
+/* Caixa branca sincronizada com o vídeo, mantida sem sombra. */
+.video-overlay-box {
+  position: absolute;
+  top: 48%;
+  right: 12%;
+  z-index: 20;
+  display: flex;
+  min-width: 520px;
+  min-height: 200px;
+  padding: 32px 54px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 28px;
+  background-color: #fff;
+  text-align: center;
+  box-shadow: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: opacity .4s ease, visibility .4s ease;
+}
+
+.video-overlay-box.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.overlay-tag {
+  color: #1f56d5;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.overlay-title {
+  display: inline-block;
+  margin-bottom: 4px;
+  overflow: hidden;
+  color: #0f172a;
+  font-family: 'Roboto', sans-serif;
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -.5px;
+  opacity: 0;
+}
+
+.video-overlay-box.visible .overlay-title {
+  animation: slideTitleUp .6s cubic-bezier(.16, 1, .3, 1) forwards;
+  animation-delay: .15s;
+}
+
+@keyframes slideTitleUp {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.overlay-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 4px;
+  opacity: 0;
+}
+
+.video-overlay-box.visible .overlay-actions {
+  animation: fadeInActions .5s ease forwards;
+  animation-delay: .35s;
+}
+
+@keyframes fadeInActions {
+  to {
+    opacity: 1;
+  }
+}
+
+.overlay-btn {
+  display: inline-block;
+  padding: 10px 28px;
+  border-radius: 24px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all .2s ease;
+}
+
+.overlay-btn-primary {
+  background-color: #1f56d5;
+  color: #fff;
+}
+
+.overlay-btn-primary:hover {
+  background-color: #163f9e;
+}
+
+.overlay-btn-secondary {
+  background-color: transparent;
+  color: #1f56d5;
+  border: 1px solid #1f56d5;
+}
+
+.overlay-btn-secondary:hover {
+  background-color: rgba(31, 86, 213, .08);
+}
+
+/* Título principal e troca sincronizada para Mirai Z Ultra. */
+.title-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.slide-title {
+  margin-bottom: 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 56px;
+  font-weight: 900;
+  line-height: 1.1;
+  transition: opacity .4s ease;
+}
+
+.miraiz-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  font-size: 56px;
+  font-weight: 900;
+  line-height: 1.1;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: transform .6s cubic-bezier(.16, 1, .3, 1), opacity .6s ease;
+}
+
+.hero-banner.show-miraiz-text .miraiz-box {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-banner.show-miraiz-text .slide-title {
+  opacity: 0;
+}
+
+.slide-subtitle {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #60a5fa;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.slide-description {
+  max-width: 520px;
+  margin-bottom: 32px;
+  color: #e2e8f0;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.slide-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all .25s ease;
+}
+
+.btn-primary {
+  background-color: #fff;
+  color: #0f172a;
+}
+
+.btn-primary:hover {
+  background-color: #e2e8f0;
+}
+
+.btn-secondary {
+  border: 2px solid #fff;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, .15);
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .2);
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  transform: translateY(-50%);
+  backdrop-filter: blur(4px);
+  transition: background-color .2s ease;
+}
+
+.carousel-control:hover {
+  background: rgba(0, 0, 0, .4);
+}
+
+.carousel-control.prev {
+  left: 24px;
+}
+
+.carousel-control.next {
+  right: 24px;
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  z-index: 10;
+  display: flex;
+  gap: 12px;
+  transform: translateX(-50%);
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, .3);
+  cursor: pointer;
+  transition: all .3s ease;
+}
+
+.dot.active {
+  width: 32px;
+  border-radius: 6px;
+  background-color: #000;
+}
+
+/* ========================================================================== 
+   5. PORTFÓLIO DE PRODUTOS
+   ========================================================================== */
+.products-showcase {
+  padding: 64px 24px;
+  background-color: #fff;
+}
+
+.showcase-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.showcase-title {
+  margin-bottom: 32px;
+  color: #000;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.showcase-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 40px;
+  padding-bottom: 8px;
+  overflow-x: auto;
+  border-bottom: 1px solid #e2e8f0;
+  list-style: none;
+}
+
+.tab-item {
+  position: relative;
+  padding-bottom: 8px;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .2s ease;
+}
+
+.tab-item:hover,
+.tab-item.active {
+  color: #000;
+}
+
+.tab-item.active {
+  font-weight: 700;
+}
+
+.tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #000;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.grid-subcontainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.grid-card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  border: 1px solid #cbd5e1;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #fff 0%, #edf2f7 100%);
+  transition: transform .4s cubic-bezier(.16, 1, .3, 1), box-shadow .4s ease, border-color .4s ease;
+  will-change: transform, box-shadow;
+}
+
+.grid-card:hover {
+  z-index: 10;
+  border-color: #1f56d5;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, .12);
+  transform: scale(1.035) translateY(-6px);
+}
+
+.card-large {
+  min-height: 520px;
+}
+
+.card-small {
+  min-height: 250px;
+}
+
+.card-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.badge-blue {
+  background-color: #1f56d5;
+  color: #fff;
+}
+
+.card-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 16px 0;
+  transition: transform .4s cubic-bezier(.16, 1, .3, 1);
+}
+
+.grid-card:hover .card-image {
+  transform: scale(1.04);
+}
+
+.card-image img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, .08));
+  transition: filter .3s ease;
+}
+
+.grid-card:hover .card-image img {
+  filter: drop-shadow(0 14px 28px rgba(31, 86, 213, .2));
+}
+
+.card-large .card-image img {
+  max-height: 280px;
+}
+
+.card-small .card-image img {
+  max-height: 110px;
+}
+
+.product-name {
+  margin-bottom: 8px;
+  color: #000;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.product-summary {
+  margin-bottom: 8px;
+  color: #64748b;
+  font-size: 13px;
+  text-align: center;
+}
+
+.product-name-sm {
+  margin-bottom: 4px;
+  color: #000;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.price-installment {
+  color: #64748b;
+  font-size: 11px;
+}
+
+.price-value {
+  margin-bottom: 4px;
+  color: #000;
+  font-size: 12px;
+}
+
+.price-value span {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.price-value small {
+  font-size: 10px;
+}
+
+.coupon-box,
+.coupon-box-sm {
+  color: #475569;
+}
+
+.coupon-box {
+  margin-bottom: 16px;
+  font-size: 12px;
+}
+
+.coupon-box-sm {
+  margin-bottom: 12px;
+  font-size: 10px;
+}
+
+.coupon-box span,
+.coupon-box-sm span {
+  padding: 1px 4px;
+  border: 1px solid #94a3b8;
+  border-radius: 4px;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.btn-buy,
+.btn-buy-sm {
+  background-color: #1f56d5;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  transition: background-color .2s ease, transform .2s ease;
+}
+
+.btn-buy {
+  padding: 10px 48px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.btn-buy-sm {
+  padding: 6px 24px;
+  border-radius: 16px;
+  font-size: 12px;
+}
+
+.btn-buy:hover,
+.btn-buy-sm:hover {
+  background-color: #163f9e;
+  transform: scale(1.02);
+}
+
+/* ========================================================================== 
+   6. RODAPÉ
+   ========================================================================== */
+.footer {
+  padding: 24px 0;
+  background-color: #0f172a;
+  color: #64748b;
+  font-size: 14px;
+  text-align: center;
+}
+
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ========================================================================== 
+   7. RESPONSIVIDADE
+   ========================================================================== */
+@media (max-width: 900px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+
+  .header-container {
+    padding: 0 16px;
+  }
+
+  .slide-caption {
+    padding: 0 24px;
+  }
+
+  .slide-title,
+  .miraiz-box {
+    font-size: 32px;
+  }
+
+  .video-overlay-box {
+    top: 50%;
+    right: 5%;
+    min-width: 300px;
+    padding: 24px 32px;
+  }
+
+  .overlay-title {
+    font-size: 28px;
+  }
+
+    .text-cover-box {
+    left: 7%;
+  }
+}
+
+@media (max-width: 550px) {
+  .grid-subcontainer {
+    grid-template-columns: 1fr;
+  }
+
+  .intro-letter {
+    font-size: 38px;
+  }
+
+  .intro-brand {
+    gap: 8px;
+  }
+
+  .video-overlay-box {
+    right: 50%;
+    min-width: 0;
+    width: min(90%, 360px);
+    transform: translate(50%, -50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.action-btn svg{width:19px;height:19px;display:block}.action-btn{position:relative}.action-btn .cart-badge{position:absolute;right:-2px;top:-2px}
+
+/* Tabs funcionais do grid inicial. */
+.showcase-tabs { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:0 0 22px; }
+.showcase-tabs .tab-item { border:1px solid #dbe3ef; background:#fff; color:#475569; padding:9px 16px; border-radius:999px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; transition:.2s ease; }
+.showcase-tabs .tab-item:hover { border-color:#1f56d5; color:#1f56d5; }
+.showcase-tabs .tab-item.active { background:#1f56d5; border-color:#1f56d5; color:#fff; }
+.grid-card[hidden] { display:none !important; }
+
+
+
+/* Cobertura permanente do aparelho do vídeo promocional. A camada permanece durante todo o vídeo,
+   inclusive no último frame, para que o Galaxy usado como referência nunca reapareça. */
+.mirai-video-cover{position:absolute;top:48%;right:8%;z-index:22;width:min(42vw,560px);min-height:220px;padding:34px 54px;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;border-radius:28px;background:#fff;color:#0f172a;text-align:center;box-shadow:none;pointer-events:none;}
+.mirai-video-cover span{color:#1f56d5;font-size:12px;font-weight:900;letter-spacing:.16em;text-transform:uppercase}.mirai-video-cover strong{font-size:clamp(34px,4.8vw,64px);font-weight:900;letter-spacing:-.05em;line-height:1}.mirai-video-cover small{color:#667085;font-size:13px;font-weight:600}
+.hero-banner .video-overlay-box{z-index:23;right:8%;}
+@media(max-width:900px){.mirai-video-cover{right:4%;width:min(70vw,520px);min-height:190px;padding:28px 30px}.mirai-video-cover strong{font-size:42px}.mirai-video-cover small{font-size:11px}}
+@media(max-width:640px){.mirai-video-cover{right:3%;width:72vw;min-height:160px;padding:24px 18px;border-radius:22px}.mirai-video-cover strong{font-size:30px}.mirai-video-cover small{font-size:10px}}
+
+
+/* Grid expandido ao filtrar por tipo, no mesmo vocabulário visual da vitrine SHINKA. */
+.catalog-filter-results{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:22px}.catalog-filter-card{display:flex;flex-direction:column;min-height:430px;overflow:hidden;border:1px solid rgba(255,255,255,.1);border-radius:22px;background:#fff;color:#0f172a;box-shadow:0 18px 45px rgba(15,23,42,.12)}.catalog-filter-card-image{display:flex;align-items:center;justify-content:center;height:230px;background:#f8fafc;text-decoration:none;color:#98a2b3;overflow:hidden}.catalog-filter-card-image img{width:100%;height:100%;object-fit:contain;transition:transform .25s ease}.catalog-filter-card:hover .catalog-filter-card-image img{transform:scale(1.04)}.catalog-filter-card-body{display:flex;flex:1;flex-direction:column;padding:20px}.catalog-filter-card-body>span{color:#5570a3;font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.catalog-filter-card-body h3{margin:8px 0 6px;font-size:20px;line-height:1.12}.catalog-filter-card-body p{margin:0 0 14px;color:#667085;font-size:12px;line-height:1.45}.catalog-filter-card-body strong{margin-top:auto;margin-bottom:14px;font-size:20px}.catalog-filter-card-body .btn-buy{align-self:flex-start}.catalog-filter-empty{padding:38px;border:1px solid rgba(255,255,255,.12);border-radius:20px;color:#cbd5e1;text-align:center}.grid-container[hidden]{display:none}.catalog-filter-results[hidden]{display:none}@media(max-width:1100px){.catalog-filter-results{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:780px){.catalog-filter-results{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}@media(max-width:520px){.catalog-filter-results{grid-template-columns:1fr}}
+
+
+/* Mirai Z: banner estático sem reprodução de vídeo. */
+.hero-banner .hero-poster {
+  display:block;
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  z-index:0;
+}
+.hero-banner #videoHolder,
+.hero-banner .video-overlay-box,
+.hero-banner .mirai-video-cover,
+.hero-banner .hero-video,
+.hero-banner .text-cover-box {
+  display:none !important;
+}
+
+
+/* ============================================================
+   HERO SHINKA — sem vídeo/Galaxy externo
+   ============================================================ */
+.hero-shinka-visual {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 72% 38%, rgba(75,124,255,.34), transparent 25%),
+    radial-gradient(circle at 87% 78%, rgba(37,88,216,.24), transparent 25%),
+    linear-gradient(120deg, #07101f 0%, #0e1d36 52%, #173c83 100%);
+}
+.hero-shinka-visual::before {
+  content: '';
+  position: absolute;
+  width: 65vw;
+  height: 65vw;
+  max-width: 760px;
+  max-height: 760px;
+  right: -18vw;
+  top: -12vw;
+  border: 1px solid rgba(142,170,249,.24);
+  border-radius: 42% 58% 54% 46% / 49% 42% 58% 51%;
+  transform: rotate(-16deg);
+  box-shadow: 0 0 80px rgba(37,88,216,.12);
+}
+.hero-shinka-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(5,10,20,.58) 0%, rgba(5,10,20,.18) 46%, rgba(5,10,20,0) 75%);
+}
+.hero-device {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  border: 1px solid rgba(255,255,255,.24);
+  background: linear-gradient(145deg, rgba(255,255,255,.13), rgba(255,255,255,.03));
+  box-shadow: 0 28px 90px rgba(0,0,0,.34);
+  backdrop-filter: blur(2px);
+}
+.hero-device-front {
+  width: 240px;
+  height: 430px;
+  right: 14%;
+  top: 19%;
+  border-radius: 34px;
+  transform: rotate(10deg);
+}
+.hero-device-back {
+  width: 230px;
+  height: 420px;
+  right: 29%;
+  top: 24%;
+  border-radius: 34px;
+  transform: rotate(-8deg);
+  opacity: .55;
+}
+.hero-device-front::after {
+  content: 'SHINKA';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(255,255,255,.82);
+  font-family: Notable, sans-serif;
+  letter-spacing: .14em;
+  font-size: 20px;
+}
+.hero-device-glow {
+  position: absolute;
+  z-index: 1;
+  width: 330px;
+  height: 330px;
+  right: 17%;
+  top: 28%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(82,129,255,.30) 0%, rgba(82,129,255,0) 72%);
+  filter: blur(8px);
+}
+.hero-banner .slide-caption { z-index: 4; }
+@media (max-width:900px) {
+  .hero-device-front { width: 170px; height: 310px; right: 9%; top: 21%; }
+  .hero-device-back { width: 164px; height: 300px; right: 30%; top: 27%; }
+  .hero-device-glow { right: 7%; top: 31%; width: 240px; height: 240px; }
+}
+
+/* Estado do carrossel quando não há banners ativos cadastrados no Admin. */
+.carousel-loading {
+  min-height: 360px;
+  display: grid;
+  place-items: center;
+  padding: 40px;
+  text-align: center;
+  color: rgba(255,255,255,.78);
+  font-size: 1rem;
+  background: #0b0f18;
+}
+.carousel-loading[hidden] { display: none; }
+
+
+/* Mobile: centraliza o botão de compra dentro dos cards do catálogo filtrado. */
+@media (max-width: 780px) {
+  .catalog-filter-card-body .btn-buy {
+    align-self: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+
+/* Âncora dos produtos: evita que o header fixo cubra o título da seção. */
+#produtos { scroll-margin-top: 64px; }
+
+/* Sem lupa no cabeçalho da Home. */
+.header-actions .search-btn,
+.header-actions .search-action,
+.header-actions [aria-label="Pesquisar"],
+.header-actions [aria-label="Buscar"],
+.header-actions [title="Pesquisar"],
+.header-actions [title="Buscar"]{display:none!important}

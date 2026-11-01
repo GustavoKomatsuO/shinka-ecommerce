@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SHINKA — tecnologia, smartphones, notebooks, tablets e TVs.">
+  <title>SHINKA - Inovação Acessível</title>
+  <link rel="shortcut icon" href="../imagens/favicon-rounded (1).ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Notable&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="cliente.css">
+</head>
+<body class="no-scroll">
+  <!-- Introdução de marca: a animação termina antes de liberar o scroll da página. -->
+  <div id="intro-loader" class="intro-loader" aria-hidden="true">
+    <div class="water-drop" id="waterDrop"></div>
+    <div class="intro-brand" id="introBrand">
+      <span class="intro-letter" style="--i:0">S</span>
+      <span class="intro-letter" style="--i:1">H</span>
+      <span class="intro-letter" style="--i:2">I</span>
+      <span class="intro-letter" style="--i:3">N</span>
+      <span class="intro-letter" style="--i:4">K</span>
+      <span class="intro-letter" style="--i:5">A</span>
+    </div>
+  </div>
+
+  <!-- Filtro SVG usado pelo efeito visual da introdução. -->
+  <svg style="display:none" aria-hidden="true">
+    <defs>
+      <filter id="water-ripple">
+        <feTurbulence type="fractalNoise" baseFrequency="0.005 0.008" numOctaves="2" result="noise"></feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Navegação global da loja. -->
+  <header class="header">
+    <div class="header-container">
+      <a href="index.html" class="logo" aria-label="SHINKA - início">SHINKA</a>
+      <nav class="nav" aria-label="Categorias de produtos">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link nav-link-home" aria-current="page">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="categoria/smartphones/smartphones.html" class="nav-link">Smartphones</a>
+            <div class="mega-menu">
+              <div class="mega-menu-content">
+                <div class="menu-column">
+                  <h4>Série Mirai</h4>
+                  <ul>
+                    <li><a href="categoria/smartphones/smartphones.html">Mirai Z <span class="badge">Dobrável</span></a></li>
+                    <li><a href="categoria/smartphones/smartphones.html">Mirai Pro <span class="badge">Premium</span></a></li>
+                    <li><a href="categoria/smartphones/smartphones.html">Mirai Neo <span class="badge">Acessível</span></a></li>
+                  </ul>
+                </div>
+                <div class="menu-column feature-card">
+                  <span class="card-tag">Destaque</span>
+                  <h5>Mirai Z</h5>
+                  <p>O futuro dobrável em suas mãos.</p>
+                  <a href="categoria/smartphones/smartphones.html">Ver todos os modelos →</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a href="categoria/notebooks/notebooks.html" class="nav-link">Notebooks</a>
+            <div class="mega-menu">
+              <div class="mega-menu-content">
+                <div class="menu-column">
+                  <h4>Linha de Altas Performances</h4>
+                  <ul>
+                    <li><a href="categoria/notebooks/notebooks.html">SHINKA Book Ultra</a></li>
+                    <li><a href="categoria/notebooks/notebooks.html">SHINKA Book Pro</a></li>
+                    <li><a href="categoria/notebooks/notebooks.html">SHINKA Book Lite</a></li>
+                  </ul>
+                </div>
+                <div class="menu-column feature-card">
+                  <span class="card-tag">Produtividade</span>
+                  <h5>SHINKA Book Pro</h5>
+                  <p>Desempenho máximo para o trabalho e corporativo.</p>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a href="categoria/tablets/tablets.html" class="nav-link">Tablets</a>
+            <div class="mega-menu">
+              <div class="mega-menu-content">
+                <div class="menu-column">
+                  <h4>Dispositivos Versáteis</h4>
+                  <ul>
+                    <li><a href="categoria/tablets/tablets.html">SHINKA Tab S Max</a></li>
+                    <li><a href="categoria/tablets/tablets.html">SHINKA Tab Active</a></li>
+                  </ul>
+                </div>
+                <div class="menu-column feature-card">
+                  <span class="card-tag">Versatilidade</span>
+                  <h5>SHINKA Tab S Max</h5>
+                  <p>Portabilidade avançada para entretenimento e criação.</p>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a href="categoria/tv/tv.html" class="nav-link">TVs</a>
+            <div class="mega-menu">
+              <div class="mega-menu-content">
+                <div class="menu-column">
+                  <h4>Exibição Avançada</h4>
+                  <ul>
+                    <li><a href="categoria/tv/tv.html">SHINKA Neo QLED 8K</a></li>
+                    <li><a href="categoria/tv/tv.html">SHINKA Ultra Display 4K</a></li>
+                    <li><a href="categoria/tv/tv.html">SHINKA Smart Frame</a></li>
+                  </ul>
+                </div>
+                <div class="menu-column feature-card">
+                  <span class="card-tag">Cinema em Casa</span>
+                  <h5>SHINKA Neo QLED 8K</h5>
+                  <p>Imagem de alta definição para seu lar ou empresa.</p>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <a class="action-btn" href="carrinho.html" title="Carrinho" aria-label="Carrinho"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l1.6 10.1a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L20 8H7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="19" r="1" fill="currentColor"/><circle cx="17" cy="19" r="1" fill="currentColor"/></svg><span class="cart-badge" data-cart-count>0</span>
+        </a>
+        <a class="action-btn" href="conta.html" title="Minha Conta" aria-label="Minha Conta">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Carrossel 100% administrável: os slides são carregados exclusivamente do Admin. -->
+    <section class="carousel-section" aria-label="Destaques da SHINKA">
+      <div class="carousel-container" id="carousel">
+        <div class="carousel-loading" id="carouselLoading" role="status" aria-live="polite">
+          Carregando destaques...
+        </div>
+
+        <button class="carousel-control prev" id="prevBtn" type="button" aria-label="Anterior" hidden>&#10094;</button>
+        <button class="carousel-control next" id="nextBtn" type="button" aria-label="Próximo" hidden>&#10095;</button>
+        <div class="carousel-indicators" id="indicators" aria-label="Selecionar slide"></div>
+      </div>
+    </section>
+
+    <!-- Catálogo visual principal da home. Mantido separado para futuras integrações com o banco. -->
+    <section class="products-showcase" id="produtos" aria-labelledby="portfolio-title">
+      <div class="showcase-container">
+        <h2 class="showcase-title" id="portfolio-title">Conheça o Portfólio de Tecnologia SHINKA</h2>
+        <nav aria-label="Filtros do portfólio">
+          <div class="showcase-tabs" role="tablist">
+            <button class="tab-item active" type="button" data-grid-filter="todas" role="tab" aria-selected="true">Todas</button>
+            <button class="tab-item" type="button" data-grid-filter="smartphones" role="tab" aria-selected="false">Smartphones</button>
+            <button class="tab-item" type="button" data-grid-filter="notebooks" role="tab" aria-selected="false">Notebooks</button>
+            <button class="tab-item" type="button" data-grid-filter="tablets" role="tab" aria-selected="false">Tablets</button>
+            <button class="tab-item" type="button" data-grid-filter="tv" role="tab" aria-selected="false">TVs</button>
+          </div>
+        </nav>
+
+        <div class="grid-container">
+          <article class="grid-card card-large" data-grid-category="smartphones">
+            <span class="card-badge badge-blue">15% Off</span>
+            <figure class="card-image"><img src="imagensTelaPrincipal/mirai-z.jpg" alt="SHINKA Mirai Z" loading="lazy"></figure>
+            <h3 class="product-name">SHINKA Mirai Z</h3>
+            <p class="product-summary">Tecnologia de Tela Dobrável de Ponta</p>
+            <div class="coupon-box">Use o cupom <span>SHINKA10</span></div>
+            <a href="categoria/smartphones/smartphones.html" class="btn-buy">Comprar</a>
+          </article>
+
+          <div class="grid-subcontainer">
+            <article class="grid-card card-small" data-grid-category="smartphones">
+              <span class="card-badge badge-blue">Destaque</span>
+              <figure class="card-image"><img src="imagensTelaPrincipal/mirai-pro.jpg" alt="SHINKA Mirai Pro" loading="lazy"></figure>
+              <h3 class="product-name-sm">SHINKA Mirai Pro</h3>
+              <div class="coupon-box-sm">Use o cupom <span>SHINKA10</span></div>
+              <a href="categoria/smartphones/smartphones.html" class="btn-buy-sm">Comprar</a>
+            </article>
+
+            <article class="grid-card card-small" data-grid-category="notebooks">
+              <figure class="card-image"><img src="imagensTelaPrincipal/book-ultra.jpg" alt="SHINKA Book Ultra" loading="lazy"></figure>
+              <h3 class="product-name-sm">SHINKA Book Ultra</h3>
+              <div class="price-installment">12x</div>
+              <div class="price-value">R$ <span>489</span>,90 <small>s/ juros</small></div>
+              <a href="categoria/notebooks/notebooks.html" class="btn-buy-sm">Comprar</a>
+            </article>
+
+            <article class="grid-card card-small" data-grid-category="tablets">
+              <span class="card-badge badge-blue">Novo</span>
+              <figure class="card-image"><img src="imagensTelaPrincipal/tab-s-max.jpg" alt="SHINKA Tab S Max" loading="lazy"></figure>
+              <h3 class="product-name-sm">SHINKA Tab S Max</h3>
+              <div class="price-installment">12x</div>
+              <div class="price-value">R$ <span>312</span>,50 <small>s/ juros</small></div>
+              <a href="categoria/tablets/tablets.html" class="btn-buy-sm">Comprar</a>
+            </article>
+
+            <article class="grid-card card-small" data-grid-category="tv">
+              <figure class="card-image"><img src="imagensTelaPrincipal/neo-qled-8k.jpg" alt="SHINKA Neo QLED 8K" loading="lazy"></figure>
+              <h3 class="product-name-sm">SHINKA Neo QLED 8K 55&quot;</h3>
+              <div class="price-installment">12x</div>
+              <div class="price-value">R$ <span>520</span>,00 <small>s/ juros</small></div>
+              <a href="categoria/tv/tv.html" class="btn-buy-sm">Comprar</a>
+            </article>
+          </div>
+        </div>
+        <div id="catalogFilterResults" class="catalog-filter-results" hidden aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>&copy; 2026 SHINKA. Todos os direitos reservados. Plataforma de E-commerce de Tecnologia.</p>
+    </div>
+  </footer>
+
+  <!-- O JS controla apenas a intro, o carrossel e o vídeo; o visual permanece no CSS. -->
+  <script src="cliente.js"></script>
+  <script src="script.js" defer></script>
+</body>
+</html>

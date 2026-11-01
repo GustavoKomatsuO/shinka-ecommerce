@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout | SHINKA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Notable&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cliente.css">
+<link rel="stylesheet" href="checkout.css">
+</head>
+<body class="checkout-page">
+<header class="checkout-header">
+  <div class="checkout-header-inner">
+    <a class="client-logo" href="carrinho.html">SHINKA</a>
+    <div class="checkout-security"><span class="security-dot"></span> Checkout seguro</div>
+  </div>
+</header>
+<main class="checkout-main">
+  <div class="checkout-container">
+    <div class="checkout-progress" aria-label="Etapas da compra">
+      <span class="active">Informações</span><span>›</span><span>Entrega</span><span>›</span><span>Pagamento</span>
+    </div>
+    <div id="notice" class="checkout-notice hidden" role="status" aria-live="polite"></div>
+    <div class="checkout-layout">
+      <form class="checkout-form" id="checkoutForm">
+        <section class="checkout-card">
+          <div class="checkout-card-head"><div><span class="step-number">1</span><div><h2>Informações de entrega</h2><p>Onde devemos entregar seu pedido?</p></div></div></div>
+          <div class="checkout-grid">
+            <label class="checkout-field full"><span>Destinatário</span><input name="destinatario" required autocomplete="name"></label>
+            <label class="checkout-field"><span>CEP</span><input name="cep" id="cep" inputmode="numeric" maxlength="9" placeholder="00000-000" required autocomplete="postal-code"></label>
+            <div class="checkout-inline-help" id="cepHelp" role="status" aria-live="polite">Digite seu CEP para consultar a entrega.</div>
+            <label class="checkout-field full"><span>Endereço</span><input name="logradouro" required autocomplete="street-address"></label>
+            <label class="checkout-field"><span>Número</span><input name="numero" required></label>
+            <label class="checkout-field"><span>Complemento <small>(opcional)</small></span><input name="complemento"></label>
+            <label class="checkout-field"><span>Bairro</span><input name="bairro" required></label>
+            <label class="checkout-field"><span>Cidade</span><input name="cidade" required autocomplete="address-level2"></label>
+            <label class="checkout-field short"><span>UF</span><input name="estado" maxlength="2" required autocomplete="address-level1"></label>
+          </div>
+        </section>
+
+        <section class="checkout-card">
+          <div class="checkout-card-head"><div><span class="step-number">2</span><div><h2>Entrega</h2><p>Escolha como quer receber.</p></div></div></div>
+          <div class="shipping-options" id="shippingOptions">
+            <label class="shipping-option active"><input type="radio" name="servico_correiros" value="03298" checked><span><strong>PAC</strong><small>Entrega econômica</small></span><b data-shipping-price="03298">Calculando…</b></label>
+            <label class="shipping-option"><input type="radio" name="servico_correiros" value="03220"><span><strong>SEDEX</strong><small>Mais rápido</small></span><b data-shipping-price="03220">Calculando…</b></label>
+          </div>
+          <div id="shippingInfo" class="shipping-info">Digite o CEP para calcular peso, dimensões, valor e prazo.</div>
+        </section>
+
+        <section class="checkout-card">
+          <div class="checkout-card-head"><div><span class="step-number">3</span><div><h2>Pagamento</h2><p>Simulação de pagamento para demonstração do projeto.</p></div></div><span class="demo-badge">Modo demonstração</span></div>
+          <div class="payment-methods" id="paymentMethods">
+            <label class="payment-method active"><input type="radio" name="forma_pagamento" value="pix" checked><span class="payment-icon">PIX</span><span><strong>PIX</strong><small>Aprovação simulada imediata</small></span><span class="radio-mark"></span></label>
+            <label class="payment-method"><input type="radio" name="forma_pagamento" value="cartao"><span class="payment-icon card">CARD</span><span><strong>Cartão</strong><small>Crédito — dados não são armazenados</small></span><span class="radio-mark"></span></label>
+            <label class="payment-method"><input type="radio" name="forma_pagamento" value="boleto"><span class="payment-icon boleto">BOL</span><span><strong>Boleto</strong><small>Emissão simulada</small></span><span class="radio-mark"></span></label>
+          </div>
+          <div class="payment-preview-row">
+            <div id="pixPreview" class="pix-preview"><div class="fake-qr" aria-hidden="true"></div><div><strong>PIX rápido</strong><small>QR visual de demonstração</small><button type="button" id="copyPix" class="mini-copy">Copiar código PIX</button></div></div>
+            <div id="cardPreview" class="card-preview" hidden><div class="card-chip"></div><span class="card-brand">SHINKA CARD</span><strong id="previewCardNumber">•••• •••• •••• ••••</strong><small id="previewCardName">NOME DO CARTÃO</small><small id="previewCardExpiry">MM/AA</small></div>
+          </div>
+          <div id="cardFields" class="card-fields" hidden>
+            <div class="checkout-grid">
+              <label class="checkout-field full"><span>Número do cartão</span><input name="cartao_numero" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000"></label>
+              <label class="checkout-field"><span>Nome impresso</span><input name="cartao_nome" autocomplete="cc-name"></label>
+              <label class="checkout-field"><span>Validade</span><input name="cartao_validade" autocomplete="cc-exp" placeholder="MM/AA"></label>
+              <label class="checkout-field short"><span>CVV</span><input name="cartao_cvv" inputmode="numeric" maxlength="4" autocomplete="cc-csc" placeholder="123"></label>
+            </div>
+          </div>
+          <div id="pixCopyStatus" class="payment-simulation-info" hidden></div>
+          <div id="paymentSimulationInfo" class="payment-simulation-info">Pagamento aprovado automaticamente no modo de demonstração.</div>
+        </section>
+
+        <section class="checkout-card checkout-final-card">
+          <div class="coupon-row"><label class="checkout-field"><span>Desconto</span><input name="cupom" placeholder="Cupom promocional"></label><div class="coupon-placeholder">O cupom é validado no servidor.</div></div>
+          <button class="checkout-submit" id="submitCheckout" type="submit"><span>Finalizar compra</span><b id="submitTotal">—</b></button>
+          <p class="checkout-terms">Ao finalizar, você confirma os dados da compra. Este checkout usa pagamento simulado, sem cobrança real.</p>
+        </section>
+      </form>
+
+      <aside class="checkout-summary" aria-label="Resumo do pedido">
+        <div class="summary-sticky">
+          <div class="summary-head"><span>Seu pedido</span><strong id="summaryCount">0 itens</strong></div>
+          <div id="summaryItems"></div>
+          <div class="summary-divider"></div>
+          <div class="summary-total"><span>Subtotal</span><strong id="summarySubtotal">R$ 0,00</strong></div>
+          <div class="summary-total"><span>Entrega</span><strong id="summaryShipping">Calculando…</strong></div>
+          <div class="summary-total"><span>Desconto</span><strong id="summaryDiscount">R$ 0,00</strong></div>
+          <div class="summary-divider"></div>
+          <div class="summary-grand"><span>Total</span><strong id="summaryTotal">R$ 0,00</strong></div>
+          <div class="summary-trust"><span>✓</span><p>Compra protegida e processamento de pagamento somente para demonstração.</p></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+<script src="cliente.js"></script>
+<script src="checkout.js"></script>
+</body>
+</html>

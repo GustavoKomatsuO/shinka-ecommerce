@@ -1,0 +1,8 @@
+<?php
+// Copie para database.local.php. Variáveis de ambiente têm precedência.
+return [
+    'host' => 'localhost',
+    'database' => 'shinka_db',
+    'username' => 'root',
+    'password' => '',
+];

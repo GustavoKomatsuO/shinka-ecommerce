@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHINKA Admin — Console</title>
+  <meta name="description" content="Console administrativo SHINKA.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Notable&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="adminStyle.css">
+</head>
+<body>
+  <!--
+    SHINKA ADMIN CONSOLE
+
+    O painel é dividido em módulos:
+    - Visão geral
+    - Catálogo
+    - Pedidos / OMS
+    - Estoque / CDs
+    - Clientes / Suporte
+    - Banco de imagens
+    - Campanhas
+    - Auditoria
+
+    A autorização real é feita no PHP.
+    O JavaScript apenas adapta a interface ao papel recebido.
+  -->
+
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-block">
+        <a class="brand" href="../telaPrincipla/index.html">SHINKA</a>
+        <span>ADMIN CONSOLE</span>
+      </div>
+
+      <nav class="side-nav" aria-label="Módulos administrativos">
+        <button class="side-link active" type="button" data-section="dashboard">
+          Visão geral
+        </button>
+
+        <button class="side-link" type="button" data-section="catalogo">
+          Catálogo
+        </button>
+
+        <button class="side-link" type="button" data-section="loja">
+          Loja / Categorias
+        </button>
+
+        <button class="side-link" type="button" data-section="pedidos">
+          Pedidos / OMS
+        </button>
+
+        <button class="side-link" type="button" data-section="estoque">
+          Estoque / CDs
+        </button>
+
+        <button class="side-link" type="button" data-section="clientes">
+          Clientes / Suporte
+        </button>
+
+        <button class="side-link" type="button" data-section="imagens">
+          Banco de imagens
+        </button>
+
+        <button class="side-link" type="button" data-section="campanhas">
+          Campanhas
+        </button>
+
+        <button class="side-link" type="button" data-section="auditoria">
+          Auditoria
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a class="side-link" href="../telaPrincipla/index.html">
+          Voltar à loja
+        </a>
+
+        <button class="side-link danger" id="btnLogout" type="button">
+          Sair
+        </button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="topbar">
+        <div class="topbar-title">
+          <button
+            class="menu-button"
+            id="menuButton"
+            type="button"
+            aria-label="Abrir menu"
+          >
+            ☰
+          </button>
+
+          <div>
+            <p class="eyebrow">SHINKA / ADMIN</p>
+            <h1 id="pageTitle">Visão geral</h1>
+          </div>
+        </div>
+
+        <div class="admin-identity">
+          <span class="status-dot" id="adminPollingDot" aria-hidden="true"></span>
+
+          <div>
+            <strong id="adminName">Carregando…</strong>
+            <small id="adminRole">—</small>
+            <small id="adminPollingStatus" aria-live="polite">Atualização automática ativada</small>
+          </div>
+        </div>
+      </header>
+
+      <div
+        class="alert"
+        id="adminAlert"
+        role="status"
+        aria-live="polite"
+      ></div>
+
+      <!-- =====================================================
+           DASHBOARD
+           ===================================================== -->
+
+      <section class="admin-section active" id="section-dashboard">
+        <div class="kpi-grid">
+          <article class="kpi-card">
+            <span>Clientes</span>
+            <strong id="kpiClientes">—</strong>
+            <small>Contas ativas</small>
+          </article>
+
+          <article class="kpi-card">
+            <span>Produtos ativos</span>
+            <strong id="kpiProdutos">—</strong>
+            <small>No catálogo</small>
+          </article>
+
+          <article class="kpi-card">
+            <span>Pedidos em fluxo</span>
+            <strong id="kpiPedidos">—</strong>
+            <small>Pago, separação ou envio</small>
+          </article>
+
+          <article class="kpi-card">
+            <span>Faturamento</span>
+            <strong id="kpiFaturamento">—</strong>
+            <small>Pedidos não cancelados</small>
+          </article>
+        </div>
+
+        <div class="content-grid two">
+          <article class="panel">
+            <header class="panel-head">
+              <div>
+                <span class="panel-kicker">OMS</span>
+                <h2>Pedidos recentes</h2>
+              </div>
+
+              <button
+                class="ghost-button"
+                type="button"
+                data-go="pedidos"
+              >
+                Ver pedidos
+              </button>
+            </header>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Pedido</th>
+                    <th>Cliente</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+
+                <tbody id="recentOrders"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="panel">
+            <header class="panel-head">
+              <div>
+                <span class="panel-kicker">LOGÍSTICA</span>
+                <h2>Estoque crítico</h2>
+              </div>
+
+              <button
+                class="ghost-button"
+                type="button"
+                data-go="estoque"
+              >
+                Abrir estoque
+              </button>
+            </header>
+
+            <div
+              class="list-stack"
+              id="lowStockList"
+            ></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           CATÁLOGO
+           ===================================================== -->
+
+      <section class="admin-section" id="section-catalogo">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">GESTÃO DE CATÁLOGO</span>
+            <h2>Produtos</h2>
+            <p>
+              Produtos, preços, cores, variações e imagens.
+            </p>
+          </div>
+
+          <button
+            class="primary-button auto"
+            id="newProductButton"
+            type="button"
+          >
+            + Novo produto
+          </button>
+        </div>
+
+        <article class="panel catalog-panel">
+          <div class="catalog-search-panel">
+            <label class="catalog-search-wide">
+              <span>Pesquisar no catálogo</span>
+              <input type="search" id="catalogSearch" placeholder="Nome, SKU, família ou categoria">
+            </label>
+          </div>
+          <div class="catalog-filter-panel" aria-label="Filtros do catálogo">
+            <div class="filter-panel-title"><span>FILTROS</span><strong>Refine os produtos exibidos</strong></div>
+            <label><span>Categoria</span><select id="catalogCategoryFilter"><option value="">Todas as categorias</option></select></label>
+            <label><span>Status</span><select id="catalogStatusFilter"><option value="">Todos</option><option value="ativo">Ativos</option><option value="inativo">Inativos</option></select></label>
+            <label class="catalog-check"><input type="checkbox" id="catalogLowStockFilter"><span>Estoque baixo</span></label>
+            <button class="ghost-button" id="catalogClearFilters" type="button">Limpar filtros</button>
+          </div>
+          <div class="catalog-results-bar">
+            <span id="catalogResultCount">0 produtos</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Categoria</th>
+                  <th>Variações</th>
+                  <th>Preço</th>
+                  <th>Estoque</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+
+              <tbody id="productTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <!-- =====================================================
+           LOJA / CATEGORIAS
+           ===================================================== -->
+
+      <section class="admin-section" id="section-loja">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">EXPERIÊNCIA DO CLIENTE</span>
+            <h2>Loja / Categorias</h2>
+            <p>Edite o nome, descrição, textos e tema visual que aparecem nas páginas do cliente.</p>
+          </div>
+        </div>
+
+        <div class="content-grid two">
+          <article class="panel">
+            <header class="panel-head"><div><span class="panel-kicker">PERSONALIZAÇÃO</span><h2>Editar categoria</h2></div></header>
+            <form class="stack-form" id="categoryForm">
+              <input type="hidden" name="id" id="categoryId">
+              <label>Categoria<select name="id_selector" id="categorySelector"></select></label>
+              <label>Nome<input name="nome" id="categoryName" maxlength="80" required></label>
+              <label>Slug<input name="slug" id="categorySlug" maxlength="60" required></label>
+              <label>Descrição<input name="descricao" id="categoryDescription" maxlength="255"></label>
+              <label>Tema visual<select name="tema" id="categoryTheme"><option value="smartphones">Smartphones / azul</option><option value="notebooks">Notebooks / dourado</option><option value="tablets">Tablets / verde</option><option value="tv">TVs / violeta</option><option value="default">SHINKA / padrão</option></select></label>
+              <label>Texto de destaque<input name="destaque_texto" id="categoryHighlight" maxlength="180" placeholder="Ex.: Inovação que acompanha seu ritmo."></label>
+              <label>Texto principal da página cliente<input name="hero_texto" id="categoryHero" maxlength="255" placeholder="Texto exibido no topo da categoria."></label>
+              <label class="check-inline"><input type="checkbox" name="ativo" id="categoryActive" value="1" checked> Ativa para o cliente</label>
+              <button class="primary-button" type="submit">Salvar categoria</button>
+            </form>
+          </article>
+          <article class="panel">
+            <header class="panel-head"><div><span class="panel-kicker">CATÁLOGO</span><h2>Categorias cadastradas</h2></div></header>
+            <div class="table-wrap"><table><thead><tr><th>Categoria</th><th>Tema</th><th>Status</th><th>Ações</th></tr></thead><tbody id="categoriesTableBody"></tbody></table></div>
+            <div style="padding:18px 20px"><button class="ghost-button full" id="newCategoryButton" type="button">+ Nova categoria</button></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           PEDIDOS
+           ===================================================== -->
+
+      <section class="admin-section" id="section-pedidos">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">ORDER MANAGEMENT SYSTEM</span>
+            <h2>Pedidos</h2>
+            <p>
+              Fluxo operacional do pagamento até a entrega.
+            </p>
+          </div>
+        </div>
+
+        <article class="panel">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Pedido</th>
+                  <th>Cliente</th>
+                  <th>Status</th>
+                  <th>Total</th>
+                  <th>Entrega</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+
+              <tbody id="ordersTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <!-- =====================================================
+           ESTOQUE
+           ===================================================== -->
+
+      <section class="admin-section" id="section-estoque">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">SUPPLY CHAIN</span>
+            <h2>Estoque por centro</h2>
+            <p>
+              Adicione, remova ou defina o saldo de cada CD. O total do produto acompanha as movimentações.
+            </p>
+          </div>
+        </div>
+
+        <div class="content-grid two">
+          <article class="panel">
+            <header class="panel-head">
+              <div>
+                <span class="panel-kicker">MOVIMENTAÇÃO</span>
+                <h2>Atualizar estoque</h2>
+              </div>
+            </header>
+
+            <form class="stack-form" id="stockForm" novalidate>
+              <label>
+                Produto
+                <select
+                  id="stockProduct"
+                  name="produto_id"
+                  required
+                ></select>
+              </label>
+
+              <label>
+                Centro de distribuição
+                <select
+                  id="stockCenter"
+                  name="centro_id"
+                  required
+                ></select>
+              </label>
+
+              <div class="stock-op" role="radiogroup" aria-label="Tipo de movimentação">
+                <label class="stock-op-option">
+                  <input type="radio" name="operacao" value="adicionar" checked>
+                  <span>Adicionar</span>
+                </label>
+                <label class="stock-op-option is-remove">
+                  <input type="radio" name="operacao" value="remover">
+                  <span>Remover</span>
+                </label>
+                <label class="stock-op-option">
+                  <input type="radio" name="operacao" value="definir">
+                  <span>Definir saldo</span>
+                </label>
+              </div>
+
+              <label>
+                <span id="stockQuantityLabel">Quantidade a adicionar</span>
+                <input
+                  id="stockQuantity"
+                  name="quantidade"
+                  type="number"
+                  min="1"
+                  step="1"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  required
+                >
+              </label>
+
+              <p class="stock-preview" id="stockPreview" aria-live="polite"></p>
+
+              <button
+                class="primary-button"
+                type="submit"
+                id="stockSubmit"
+              >
+                Adicionar ao estoque
+              </button>
+            </form>
+          </article>
+
+          <article class="panel">
+            <header class="panel-head">
+              <div>
+                <span class="panel-kicker">VISÃO</span>
+                <h2>Distribuição</h2>
+              </div>
+            </header>
+
+            <div
+              id="stockTableWrap"
+              class="table-wrap"
+            ></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           CLIENTES
+           ===================================================== -->
+
+      <section class="admin-section" id="section-clientes">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">SUPORTE AO CLIENTE</span>
+            <h2>Clientes</h2>
+            <p>
+              Histórico resumido das compras.
+            </p>
+          </div>
+        </div>
+
+        <article class="panel">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>E-mail</th>
+                  <th>Pedidos</th>
+                  <th>Total comprado</th>
+                  <th>Cadastro</th>
+                  <th>Histórico</th>
+                </tr>
+              </thead>
+
+              <tbody id="clientsTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <!-- =====================================================
+           CAMPANHAS
+           ===================================================== -->
+
+      <section class="admin-section" id="section-campanhas">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">MARKETING</span>
+            <h2>Campanhas</h2>
+            <p>
+              Banners do carrossel da página inicial e regras de desconto.
+            </p>
+          </div>
+        </div>
+
+        <div class="content-grid two">
+          <article class="panel">
+            <header class="panel-head">
+              <div>
+                <span class="panel-kicker">BANNERS DO CARROSSEL</span>
+                <h2>Banner da Home</h2>
+              </div>
+            </header>
+            <p class="panel-help">
+              Os banners ativos desta lista aparecem no carrossel da página inicial.
+              Primeiro envie a imagem em <strong>Banco de imagens</strong> e depois selecione-a aqui.
+              A <strong>Ordem</strong> define a posição do slide.
+            </p>
+
+            <form
+              id="bannerForm"
+              class="stack-form"
+            >
+              <label>
+                Título
+                <input
+                  name="titulo"
+                  maxlength="160"
+                  required
+                >
+              </label>
+
+              <label>
+                Subtítulo
+                <input
+                  name="subtitulo"
+                  maxlength="255"
+                >
+              </label>
+
+              <label>
+                Link
+                <input
+                  name="link"
+                  maxlength="255"
+                  placeholder="categoria/smartphones/smartphones.html"
+                >
+              </label>
+
+              <label>
+                Imagem
+                <select
+                  name="imagem_id"
+                  id="bannerImageId"
+                >
+                  <option value="">Sem imagem</option>
+                </select>
+              </label>
+
+              <label>
+                Ordem
+                <input
+                  name="ordem"
+                  type="number"
+                  value="0"
+                >
+              </label>
+
+              <label class="check-inline">
+                <input
+                  name="ativo"
+                  type="checkbox"
+                  value="1"
+                  checked
+                >
+                Ativo
+              </label>
+
+              <button
+                class="primary-button"
+                type="submit"
+              >
+                Criar banner
+              </button>
+            </form>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Banner</th>
+                    <th>Ordem</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                  </tr>
+                </thead>
+
+                <tbody id="bannersTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="panel">
+            <header class="panel-head">
+              <div>
+                <span class="panel-kicker">DESCONTOS</span>
+                <h2>Regra / cupom</h2>
+              </div>
+            </header>
+
+            <form
+              id="couponForm"
+              class="stack-form"
+            >
+              <label>
+                Código
+                <input
+                  name="codigo"
+                  maxlength="60"
+                  placeholder="SHINKA10"
+                  required
+                >
+              </label>
+
+              <label>
+                Descrição
+                <input
+                  name="descricao"
+                  maxlength="255"
+                >
+              </label>
+
+              <label>
+                Tipo
+                <select name="tipo">
+                  <option value="percentual">
+                    Percentual
+                  </option>
+                  <option value="valor">
+                    Valor fixo
+                  </option>
+                </select>
+              </label>
+
+              <label>
+                Valor
+                <input
+                  name="valor"
+                  inputmode="decimal"
+                  placeholder="10"
+                >
+              </label>
+
+              <label>
+                Pedido mínimo
+                <input
+                  name="valor_minimo"
+                  inputmode="decimal"
+                  placeholder="0"
+                >
+              </label>
+
+              <label>
+                Limite de uso
+                <input
+                  name="limite_uso"
+                  type="number"
+                  min="1"
+                  placeholder="Sem limite"
+                >
+              </label>
+
+              <button
+                class="primary-button"
+                type="submit"
+              >
+                Criar regra
+              </button>
+            </form>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+
+                <tbody id="couponsTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           BANCO DE IMAGENS
+           ===================================================== -->
+
+      <section class="admin-section" id="section-imagens">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">ASSET MANAGEMENT / MATRIZ DE SKUS</span>
+            <h2>Mídia e variantes</h2>
+            <p>
+              Fotos globais ficam no Produto Pai; fotos específicas ficam na cor/SKU Filho.
+              A primeira foto de cada lote é a thumbnail daquela variante.
+            </p>
+          </div>
+        </div>
+
+        <div class="content-grid two">
+          <article class="panel upload-panel">
+            <header class="panel-head">
+              <div>
+                <span class="panel-kicker">NOVA MÍDIA</span>
+                <h2>Adicionar imagem</h2>
+              </div>
+            </header>
+
+            <form
+              id="imageUploadForm"
+              class="stack-form"
+            >
+              <label>
+                Arquivo
+                <input
+                  type="file"
+                  name="imagem"
+                  accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
+                  required
+                >
+              </label>
+
+              <label>
+                Texto alternativo
+                <input type="text" name="alt_text" maxlength="255" placeholder="Ex.: SHINKA Mirai Z na cor Verde">
+              </label>
+              <div class="upload-drop-hint">JPG, PNG, WEBP, GIF ou AVIF, até <strong>10 MB</strong>. O arquivo que você selecionar é processado e salvo automaticamente em <code>C:\xampp\htdocs\img\produtos</code>. Para banners, as derivadas ficam em <code>C:\xampp\htdocs\img\banners</code>. O MySQL guarda o caminho do arquivo. O limite efetivo também depende do <code>upload_max_filesize</code>/<code>post_max_size</code> do PHP.</div>
+
+              <button
+                class="primary-button"
+                type="submit"
+              >
+                Salvar em img
+              </button>
+            </form>
+
+          </article>
+
+          <article class="panel">
+            <header class="panel-head">
+              <div>
+                <span class="panel-kicker">BIBLIOTECA</span>
+                <h2>Imagens salvas em img</h2>
+              </div>
+            </header>
+
+            <div
+              class="image-grid"
+              id="imageGrid"
+            ></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           AUDITORIA
+           ===================================================== -->
+
+      <section class="admin-section" id="section-auditoria">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">GOVERNANÇA</span>
+            <h2>Auditoria</h2>
+            <p>
+              Operações administrativas mais recentes. Mostramos 5 por vez; use "Ver mais" para expandir.
+            </p>
+          </div>
+        </div>
+
+        <article class="panel catalog-panel">
+          <div class="catalog-search-panel">
+            <label class="catalog-search-wide">
+              <span>Pesquisar na auditoria</span>
+              <input type="search" id="auditSearch" placeholder="Usuário, ação, entidade, ID ou detalhe" autocomplete="off">
+            </label>
+          </div>
+          <div class="catalog-filter-panel audit-filter-panel" aria-label="Filtros da auditoria">
+            <div class="filter-panel-title"><span>FILTROS</span><strong>Refine os eventos exibidos</strong></div>
+            <label><span>Entidade</span><select id="auditEntityFilter"><option value="">Todas</option></select></label>
+            <label><span>Ação</span><select id="auditActionFilter"><option value="">Todas</option></select></label>
+            <button class="ghost-button" id="auditClearFilters" type="button">Limpar filtros</button>
+          </div>
+          <div class="catalog-results-bar">
+            <span id="auditResultCount" aria-live="polite">0 eventos</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Usuário</th>
+                  <th>Ação</th>
+                  <th>Entidade</th>
+                  <th>ID</th>
+                  <th>Detalhes</th>
+                </tr>
+              </thead>
+
+              <tbody id="logsTableBody"></tbody>
+            </table>
+          </div>
+          <div class="show-more-wrap" id="auditMoreWrap" hidden>
+            <button class="show-more-button" id="auditShowMore" type="button">Ver mais</button>
+            <button class="show-more-button" id="auditShowLess" type="button" hidden>Ver menos</button>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <!-- =======================================================
+       MODAL DE PRODUTO
+       ======================================================= -->
+
+  <dialog id="productDialog" class="product-dialog">
+    <form id="productForm">
+      <header class="dialog-head dialog-head-sticky">
+        <div>
+          <span class="panel-kicker">CATÁLOGO</span>
+          <h2 id="dialogTitle">Novo produto</h2>
+          <p class="dialog-subtitle">Cadastre o produto por etapas, sem misturar informações.</p>
+        </div>
+        <button class="close-button" id="closeProductDialog" type="button" aria-label="Fechar">
+          <span aria-hidden="true">×</span>
+        </button>
+      </header>
+
+      <input type="hidden" name="id" id="productId">
+
+      <div class="product-editor-body">
+        <section class="editor-section">
+          <div class="editor-section-head">
+            <div>
+              <span class="panel-kicker">01 · IDENTIFICAÇÃO</span>
+              <h3>Informações principais</h3>
+              <p>Nome, categoria e organização interna do produto.</p>
+            </div>
+          </div>
+          <div class="form-grid">
+            <label>
+              <span>Nome do produto</span>
+              <input name="nome" id="productName" maxlength="160" required placeholder="Ex.: SHINKA Mirai Pro">
+            </label>
+            <label>
+              <span>Categoria</span>
+              <select name="categoria_id" id="productCategory" required></select>
+            </label>
+            <label>
+              <span>Família / linha</span>
+              <input name="familia" id="productFamily" maxlength="100" placeholder="Ex.: Mirai Pro">
+            </label>
+            <label>
+              <span>Slug</span>
+              <input name="slug" id="productSlug" maxlength="180" placeholder="mirai-pro">
+              <small class="field-help">Pode deixar em branco para o sistema usar o nome.</small>
+            </label>
+            <label class="span-2">
+              <span>Descrição curta</span>
+              <textarea name="descricao" id="productDescription" rows="3" placeholder="Explique o principal benefício do produto."></textarea>
+            </label>
+            <label class="span-2">
+              <span>Especificações</span>
+              <input name="especificacoes" id="productSpecs" placeholder="Separe os itens com •">
+              <small class="field-help">Ex.: 256GB • 120Hz • 5G</small>
+            </label>
+          </div>
+        </section>
+
+        <section class="editor-section editor-section-muted">
+          <div class="editor-section-head">
+            <div>
+              <span class="panel-kicker">02 · PREÇO E ESTOQUE</span>
+              <h3>Valores comerciais</h3>
+              <p>Defina preço, promoção e posicionamento do produto.</p>
+            </div>
+          </div>
+          <div class="form-grid">
+            <label>
+              <span>Preço base</span>
+              <div class="input-prefix"><b>R$</b><input name="preco" id="productPrice" inputmode="decimal" required placeholder="0,00"></div>
+            </label>
+            <label>
+              <span>Preço promocional</span>
+              <div class="input-prefix"><b>R$</b><input name="preco_promocional" id="productPromoPrice" inputmode="decimal" placeholder="Opcional"></div>
+            </label>
+            <label>
+              <span>Preço anterior</span>
+              <div class="input-prefix"><b>R$</b><input name="preco_anterior" id="productOldPrice" inputmode="decimal" placeholder="Opcional"></div>
+            </label>
+            <label>
+              <span>Selo</span>
+              <input name="badge" id="productBadge" maxlength="80" placeholder="Ex.: Mais vendido">
+            </label>
+            <label>
+              <span>Peso (kg)</span>
+              <input name="peso_kg" id="productWeight" inputmode="decimal" min="0.01" step="0.01" placeholder="Ex.: 0,85">
+            </label>
+            <label>
+              <span>Altura (cm)</span>
+              <input name="altura_cm" id="productHeight" inputmode="decimal" min="1" step="0.1" placeholder="Ex.: 10">
+            </label>
+            <label>
+              <span>Largura (cm)</span>
+              <input name="largura_cm" id="productWidth" inputmode="decimal" min="1" step="0.1" placeholder="Ex.: 20">
+            </label>
+            <label>
+              <span>Comprimento (cm)</span>
+              <input name="comprimento_cm" id="productLength" inputmode="decimal" min="1" step="0.1" placeholder="Ex.: 30">
+            </label>
+            <small class="field-help span-2">Esses dados entram no cálculo do frete. Produtos antigos sem medidas usam os padrões configurados até serem editados.</small>
+          </div>
+        </section>
+
+        <section class="editor-section">
+          <div class="editor-section-head">
+            <div>
+              <span class="panel-kicker">03 · MÍDIA</span>
+              <h3>Imagem principal</h3>
+              <p>Escolha a imagem exibida primeiro no catálogo.</p>
+            </div>
+          </div>
+          <div class="editor-media-row">
+            <label class="editor-media-field">
+              <span>Biblioteca de imagens</span>
+              <select name="imagem_id" id="productImageId">
+                <option value="">Sem imagem</option>
+              </select>
+            </label>
+            <div class="editor-tip">As imagens de cada cor são configuradas na seção de variações.</div>
+          </div>
+        </section>
+
+        <section class="editor-section">
+          <div class="editor-section-head editor-section-head-row">
+            <div>
+              <span class="panel-kicker">04 · VARIAÇÕES</span>
+              <h3>Cores e imagens</h3>
+              <p>Uma cor pode ter várias imagens. Use SKU e nome claros para facilitar o estoque.</p>
+            </div>
+            <button type="button" class="primary-button auto" id="addVariantButton">+ Adicionar cor</button>
+          </div>
+          <div id="variantList" class="variant-list"></div>
+        </section>
+
+        <section class="editor-section editor-section-muted">
+          <div class="editor-section-head">
+            <div>
+              <span class="panel-kicker">05 · PUBLICAÇÃO</span>
+              <h3>Status do produto</h3>
+              <p>Defina como o produto aparecerá para os clientes.</p>
+            </div>
+          </div>
+          <div class="publication-options">
+            <label class="toggle-option">
+              <input type="checkbox" name="destaque" id="productFeatured">
+              <span><strong>Produto em destaque</strong><small>Prioriza o item em áreas de destaque da loja.</small></span>
+            </label>
+            <label class="toggle-option">
+              <input type="checkbox" name="ativo" id="productActive" checked>
+              <span><strong>Ativo no catálogo</strong><small>Permite que o produto seja exibido e comprado.</small></span>
+            </label>
+          </div>
+        </section>
+      </div>
+
+      <footer class="dialog-actions dialog-actions-sticky">
+        <button class="ghost-button" id="cancelProductButton" type="button">Cancelar</button>
+        <button class="primary-button auto" id="saveProductButton" type="submit">Salvar produto</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- =======================================================
+       MODAL DE HISTÓRICO
+       ======================================================= -->
+
+  <dialog
+    id="historyDialog"
+    class="product-dialog"
+  >
+    <section>
+      <header class="dialog-head">
+        <div>
+          <span class="panel-kicker">SUPORTE</span>
+          <h2>Histórico do cliente</h2>
+        </div>
+
+        <button
+          class="close-button"
+          id="closeHistory"
+          type="button"
+          aria-label="Fechar"
+        >
+          ×
+        </button>
+      </header>
+
+      <div
+        id="historyContent"
+        class="history-content"
+      ></div>
+    </section>
+  </dialog>
+
+  <script
+    src="adminScript.js"
+    defer
+  ></script>
+</body>
+</html>
