@@ -18,3 +18,7 @@ Thumbs.db
 /node_modules/
 /public/imagens/*
 !/public/imagens/.gitkeep
+
+# Documentação local em Markdown
+*.md
+!/README.md

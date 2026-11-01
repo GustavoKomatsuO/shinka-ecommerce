@@ -4,7 +4,7 @@ Aplicação web de comércio eletrônico desenvolvida como **projeto acadêmico*
 
 **Status:** projeto acadêmico em evolução · **Pagamentos:** simulados · **Ambiente recomendado:** XAMPP com PHP 8.2 e MariaDB.
 
-[Executar localmente](#executar-localmente) · [Arquitetura](#arquitetura) · [Como testar](docs/COMO_TESTAR.md) · [Contribuir](CONTRIBUTING.md)
+[Executar localmente](#executar-localmente) · [Arquitetura](#arquitetura) · [Validação](#validação)
 
 ## Funcionalidades
 
@@ -45,7 +45,6 @@ O frontend consulta `public/index.php?route=...`. Esse arquivo seleciona o contr
 | `config/` | Exemplos de configuração e ajustes locais ignorados pelo Git. |
 | `database/` | Instalação SQL e migrações para versões anteriores. |
 | `tools/` | Utilitários de manutenção. |
-| `docs/` | Validação, limitações e documentação complementar. |
 
 A organização é inspirada em MVC. Parte dos controllers acessa PDO diretamente; a separação em camadas ainda pode evoluir.
 
@@ -104,18 +103,24 @@ O utilitário funciona somente no terminal e promove uma conta existente. Saia d
 - O upload exige GD e permissão de escrita. Na estrutura recebida, a pasta **`img/` é criada ao lado da pasta do projeto**: no XAMPP, `C:\xampp\htdocs\img`. Essa organização foi preservada; o banco mantém caminhos relativos `img/...` e o PHP entrega as imagens pelo endpoint próprio.
 - Os produtos de demonstração podem precisar de imagens vinculadas pelo painel administrativo.
 - Para configurar os Correios, copie `config/correios.php.example` para `config/correios.php` ou use as variáveis lidas por `services/CorreiosService.php`, como `CORREIOS_TOKEN` e `CORREIOS_ORIGEM_CEP`. Mantenha as credenciais no ambiente local.
-- ViaCEP usa consulta pública e depende de acesso à internet. Para certificados do XAMPP, consulte o guia de instalação e configure um CA bundle confiável.
+- ViaCEP usa consulta pública e depende de acesso à internet. Para certificados do XAMPP, configure `curl.cainfo` e `openssl.cafile` no `php.ini` com um CA bundle confiável e reinicie o Apache.
 
-## Documentação e validação
+## Validação
 
-- [Guia de instalação](GUIA_INSTALACAO.md)
-- [Guia do sistema: cliente e administrador](GUIA_SISTEMA.md)
-- [Visão do console administrativo](RELATORIO_ADMIN.md)
-- [Como testar e limites da validação](docs/COMO_TESTAR.md)
-- [Limitações e próximas melhorias](docs/LIMITACOES.md)
-- [Orientações de contribuição](CONTRIBUTING.md)
+A automação em `.github/workflows/validacao.yml` verifica sintaxe PHP e JavaScript. As verificações passaram na publicação inicial; elas não substituem testes com banco e serviços externos.
 
-A automação em `.github/workflows/validacao.yml` verifica sintaxe PHP e JavaScript. Ela não substitui os testes dos fluxos com banco de dados e serviços externos.
+Com PHP e Node.js disponíveis, execute na raiz:
+
+```bash
+find . -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+find public -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+```
+
+Para testar manualmente, confira cadastro/login, cadastro de produto e imagem, carrinho, CEP, checkout simulado, histórico de pedidos, estoque e encerramento de sessão.
+
+**Limitações conhecidas:** a execução completa com MariaDB e as integrações externas ainda precisa ser validada. O código recebido em `services/cep_api.php` tenta uma consulta sem validação TLS após erro cURL 60; substitua esse comportamento por certificados corretamente configurados antes de exposição pública. A inicialização ainda altera o esquema automaticamente e existem referências antigas a caminhos locais.
+
+Os demais arquivos Markdown ficam fora do versionamento; este README concentra a documentação publicada.
 
 ## Contexto do projeto
 
